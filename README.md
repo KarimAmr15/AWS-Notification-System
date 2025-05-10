@@ -8,7 +8,7 @@ This project implements a simplified event-driven backend for an e-commerce plat
 
 ## ✅ Architecture Diagram
 
-![Architecture Diagram](images/architecture%20%diagram.png)
+![Architecture Diagram](images/architecture diagram.png)
 
 ---
 
