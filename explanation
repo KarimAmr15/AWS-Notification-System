@@ -1,0 +1,12 @@
+
+### Visibility Timeout and DLQ – Importance and Use
+
+In an event-driven system, reliability is key. SQS’s **Visibility Timeout** and **Dead-Letter Queue (DLQ)** features help ensure that failed messages are not lost and can be retried or inspected later.
+
+**Visibility Timeout** temporarily hides a message from the queue once it's picked up by a consumer (Lambda). If the Lambda function fails to process it within this period (default 30 seconds), the message becomes visible again and can be retried.
+
+To avoid infinite retry loops, we configure a **DLQ**. After **3 failed attempts** (set by `maxReceiveCount = 3`), the message is sent to the DLQ (`OrderDLQ`). This prevents system clogging and allows engineers to debug why certain messages failed—whether due to malformed data or service outages.
+
+Together, these features provide fault tolerance and observability in asynchronous processing systems.
+
+---
