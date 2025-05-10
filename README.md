@@ -113,6 +113,27 @@ This project implements a simplified event-driven backend for an e-commerce plat
 
 ### 6. Test case
 
+Published a test message to the SNS Topic:
+
+{
+"orderId": "O1234",
+"userId": "U123",
+"itemName": "Laptop",
+"quantity": 1,
+"status": "new",
+"timestamp": "2025-05-03T12:00:00Z"}
+
+
+
+
+![test image](images/test1.png)
+![test image](images/test2.png)
+![test image](images/test3.png)
+
+
+
+
+
 
 
 
