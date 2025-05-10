@@ -86,7 +86,7 @@ This project implements a simplified event-driven backend for an e-commerce plat
 #### B. Create the Lambda Function
 
 - Go to **Lambda > Create Function**
-- Runtime: **Python 3.10**
+- Runtime: **Node js**
 - Function name: `OrderProcessor`
 - Use the IAM role above
 
@@ -98,28 +98,38 @@ This project implements a simplified event-driven backend for an e-commerce plat
 
 #### D. Lambda Code
 
-```python
-import json
-import boto3
+```import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import { DynamoDBDocumentClient, PutCommand } from "@aws-sdk/lib-dynamodb";
 
-dynamodb = boto3.resource('dynamodb')
-table = dynamodb.Table('Orders')
+// Initialize DynamoDB clients
+const client = new DynamoDBClient({});
+const docClient = DynamoDBDocumentClient.from(client);
 
-def lambda_handler(event, context):
-    for record in event['Records']:
-        try:
-            print("Raw SQS record body:", record['body'])
+// DynamoDB table name
+const tableName = "Orders";
 
-            message = json.loads(record['body'])
-            if isinstance(message, str):
-                message = json.loads(message)
+export const handler = async (event) => {
+  for (const record of event.Records) {
+    try {
+      // Parse the SNS-wrapped message
+      const snsWrapped = JSON.parse(record.body);
+      const message = JSON.parse(snsWrapped.Message);
 
-            print("Parsed message:", message)
+      console.log("Received order message:", message);
 
-            # Save to DynamoDB
-            table.put_item(Item=message)
-            print("Order saved:", message['orderId'])
+      // Save to DynamoDB
+      const command = new PutCommand({
+        TableName: tableName,
+        Item: message,
+      });
 
-        except Exception as e:
-            print("Error processing message:", e)
-            raise e
+      const response = await docClient.send(command);
+      console.log("DynamoDB response:", response);
+
+    } catch (error) {
+      console.error("Error processing message:", error);
+      throw error;
+    }
+  }
+};
+
