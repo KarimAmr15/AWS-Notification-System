@@ -29,7 +29,8 @@ This project implements a simplified event-driven backend for an e-commerce plat
 - Go to **DynamoDB > Create table**
 - Table Name: `Orders`
 - Partition Key: `orderId` (String)  
-  *(Important: This must be exactly `orderId`, case-sensitive.)*
+
+![DynamoDB image](images/create_dynamo.png)
 
 ---
 
@@ -39,6 +40,8 @@ This project implements a simplified event-driven backend for an e-commerce plat
 - Name: `OrderTopic`
 - Type: Standard
 - After creation, note the ARN for use in SQS subscription.
+
+![SNS image](images/create_sns.png)
 
 ---
 
@@ -60,6 +63,10 @@ This project implements a simplified event-driven backend for an e-commerce plat
 - Type: Standard
 - Leave DLQ and redrive policies disabled (this is already a DLQ).
 
+
+![SQS image](images/create_sqs1.png)
+![SQS image](images/create_sqs2.png)
+
 ---
 
 ### 4. SNS → SQS Subscription
@@ -67,7 +74,6 @@ This project implements a simplified event-driven backend for an e-commerce plat
 - Go to **SNS > OrderTopic > Create subscription**
 - Protocol: **Amazon SQS**
 - Endpoint: Select `OrderQueue`
-- Make sure the subscription is **confirmed**
 
 ---
 
@@ -95,6 +101,9 @@ This project implements a simplified event-driven backend for an e-commerce plat
 - Go to **Configuration > Triggers > Add trigger**
 - Choose SQS
 - Select `OrderQueue`
+
+
+![lambda image](images/create_lambda.png)
 
 #### D. Lambda Code
 
@@ -132,4 +141,13 @@ export const handler = async (event) => {
     }
   }
 };
+'''
+
+
+### 4. Test case
+
+
+
+
+
 
