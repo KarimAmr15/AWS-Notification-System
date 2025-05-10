@@ -107,46 +107,11 @@ This project implements a simplified event-driven backend for an e-commerce plat
 
 #### D. Lambda Code
 
-```import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { DynamoDBDocumentClient, PutCommand } from "@aws-sdk/lib-dynamodb";
-
-// Initialize DynamoDB clients
-const client = new DynamoDBClient({});
-const docClient = DynamoDBDocumentClient.from(client);
-
-// DynamoDB table name
-const tableName = "Orders";
-
-export const handler = async (event) => {
-  for (const record of event.Records) {
-    try {
-      // Parse the SNS-wrapped message
-      const snsWrapped = JSON.parse(record.body);
-      const message = JSON.parse(snsWrapped.Message);
-
-      console.log("Received order message:", message);
-
-      // Save to DynamoDB
-      const command = new PutCommand({
-        TableName: tableName,
-        Item: message,
-      });
-
-      const response = await docClient.send(command);
-      console.log("DynamoDB response:", response);
-
-    } catch (error) {
-      console.error("Error processing message:", error);
-      throw error;
-    }
-  }
-};
----
+![lambda image](images/lambda_code.png)
 
 
 
-
-### 4. Test case
+### 6. Test case
 
 
 
