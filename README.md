@@ -124,10 +124,13 @@ Published a test message to the SNS Topic:
 "timestamp": "2025-05-03T12:00:00Z"}
 
 
-
-
+#### A. message published to SNS
+![test image](images/test4.png)
+#### B. lambda logs
 ![test image](images/test1.png)
+#### c. SQS logs
 ![test image](images/test2.png)
+#### D. Dynamo logs
 ![test image](images/test3.png)
 
 
